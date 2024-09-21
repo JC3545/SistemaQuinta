@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservar</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h2>Reservar</h2>
+    <form method="POST" action="/check_fecha">
+        <label for="fecha">Fecha:</label>
+        <input type="date" id="fecha" name="fecha" required>
+        <button type="submit" class="centered-button">Comprobar Disponibilidad</button>
+    </form>
+    
+    <div class="centered">
+        <p><a href="/reservas">Ver Reservas</a></p>
+        <p><a href="/logout">Logout</a></p>
+    </div>
+    
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="centered">
+          <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    {% endwith %}
+</body>
+</html>

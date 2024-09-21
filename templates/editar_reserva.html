@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Reserva</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="centered">
+        <h2>Editar Reserva</h2>
+        <form method="POST" action="/editar/{{ reserva['id'] }}">
+            <label for="fecha">Fecha de Reserva:</label>
+            <input type="date" id="fecha" name="fecha" value="{{ reserva['fecha'] }}" required>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" value="{{ reserva['nombre'] }}" required>
+
+            <label for="telefono">Teléfono:</label>
+            <input type="text" id="telefono" name="telefono" value="{{ reserva['telefono'] }}" required>
+
+            <label for="tipo_evento">Tipo de Evento:</label>
+            <input type="text" id="tipo_evento" name="tipo_evento" value="{{ reserva['tipo_evento'] }}" required>
+
+            <label for="total">Total:</label>
+            <input type="number" id="total" name="total" value="{{ reserva['total'] }}" required>
+
+            <label for="seña">Seña:</label>
+            <input type="number" id="seña" name="seña" value="{{ reserva['seña'] }}" required>
+
+            <label for="fecha_seña">Fecha de Seña:</label>
+            <input type="date" id="fecha_seña" name="fecha_seña" value="{{ reserva['fecha_seña'] }}" required>
+
+            <label for="metodo_pago">Método de Pago:</label>
+            <input type="text" id="metodo_pago" name="metodo_pago" value="{{ reserva['metodo_pago'] }}" required>
+
+            <label for="dirigido_a">Dirigido a:</label>
+            <input type="text" id="dirigido_a" name="dirigido_a" value="{{ reserva['dirigido_a'] }}" required>
+
+            <label for="resto">Resto:</label>
+            <input type="number" id="resto" name="resto" value="{{ reserva['resto'] }}" required>
+
+            <label for="observaciones">Observaciones:</label>
+            <textarea id="observaciones" name="observaciones">{{ reserva['observaciones'] }}</textarea>
+
+            <button type="submit" class="centered-button">Guardar Cambios</button>
+        </form>
+
+        <div class="centered">
+            <p><a href="/reservas">Volver</a></p>
+        </div>
+    </div>
+</body>
+</html>

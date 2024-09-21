@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles de Reserva</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h2>Detalles de Reserva</h2>
+    <div class="container">
+        <p><strong>Fecha:</strong> {{ reserva.fecha }}</p>
+        <p><strong>Nombre:</strong> {{ reserva.nombre }}</p>
+        <p><strong>Teléfono:</strong> {{ reserva.telefono }}</p>
+        <p><strong>Tipo de Evento:</strong> {{ reserva.tipo_evento }}</p>
+        <p><strong>Total:</strong> ${{ reserva.total }}</p>
+        <p><strong>Seña:</strong> ${{ reserva.seña }}</p>
+        <p><strong>Fecha de Seña:</strong> {{ reserva.fecha_seña }}</p>
+        <p><strong>Método de Pago:</strong> {{ reserva.metodo_pago }}</p>
+        <p><strong>Dirigido a:</strong> {{ reserva.dirigido_a }}</p>
+        <p><strong>Resto:</strong> ${{ reserva.resto }}</p>
+        <p><strong>Observaciones:</strong> {{ reserva.observaciones }}</p>
+    </div>
+    <div class="centered">
+        <form action="/eliminar/{{ reserva.id }}" method="POST" style="display:inline;">
+            <button type="submit" class="delete-button">Eliminar</button>
+        </form>
+        </form>
+        <a href="/editar/{{ reserva.id }}">
+            <button class="edit-button">Editar</button>
+        </a>
+    </div>
+    <div class="centered">
+        <p><a href="/reservas">Volver a Reservas</a></p>
+        <p><a href="/logout">Logout</a></p>
+    </div>
+</body>
+</html>

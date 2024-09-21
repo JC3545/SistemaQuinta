@@ -1,0 +1,141 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+}
+
+h2 {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.centered {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.container {
+    max-width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="number"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.delete-button {
+    background-color: red; /* Rojo para eliminar */
+    color: white;
+}
+
+.edit-button {
+    background-color: blue; /* Azul para editar */
+    color: white;
+}
+
+
+button:hover {
+    background-color: #4cae4c;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center; /* Centrar texto en la tabla */
+}
+
+th {
+    background-color: #5cb85c;
+    color: white;
+}
+
+button {
+    width: auto; /* Cambiar a auto para que se ajuste al contenido */
+    padding: 10px 15px; /* Añadir padding para mayor área clickeable */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 5px; /* Espaciado entre botones */
+}
+
+button:hover {
+    opacity: 0.8; /* Efecto de hover */
+}
+
+
+a {
+    margin: 0 5px; /* Espacio entre los enlaces */
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+td[colspan="6"] {
+    text-align: center;
+    font-weight: bold;
+    color: #666;
+}
+
+.centered-button {
+    display: block; /* Asegúrate de que el botón ocupe el 100% del ancho disponible */
+    margin: 20px auto; /* Margen automático para centrar */
+    width: 50%; /* Ajusta el ancho según tus preferencias */
+}
+
+@media (max-width: 600px) {
+    form {
+        margin: 10px;
+        padding: 15px;
+    }
+}

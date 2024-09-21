@@ -12,12 +12,28 @@
             const resto = total - seña;
             document.getElementById('resto').value = resto >= 0 ? resto : 0; // Asegura que no sea negativo
         }
+
+        function habilitarCampo(metodo) {
+            const efectivoDiv = document.getElementById('efectivoDiv');
+            const transferenciaDiv = document.getElementById('transferenciaDiv');
+            document.getElementById('metodo_pago').value = metodo; // Establece el valor del método de pago oculto
+            if (metodo === 'efectivo') {
+                efectivoDiv.style.display = 'block';
+                transferenciaDiv.style.display = 'none';
+                document.getElementById('transferencia').value = '';
+            } else {
+                efectivoDiv.style.display = 'none';
+                transferenciaDiv.style.display = 'block';
+                document.getElementById('efectivo').value = '';
+            }
+        }
     </script>
 </head>
 <body>
     <h2>Ingresar Datos del Cliente</h2>
     <form method="POST" action="/ingresar_cliente">
         <input type="hidden" name="fecha" value="{{ fecha }}">
+        <input type="hidden" id="metodo_pago" name="metodo_pago"> <!-- Campo oculto para el método de pago -->
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" required>
         
@@ -36,8 +52,21 @@
         <label for="fecha_seña">Fecha de Seña:</label>
         <input type="date" id="fecha_seña" name="fecha_seña" required>
         
-        <label for="metodo_pago">Método de Pago:</label>
-        <input type="text" id="metodo_pago" name="metodo_pago" required>
+        <label>Método de Pago:</label>
+        <div>
+            <button type="button" onclick="habilitarCampo('efectivo')">Efectivo</button>
+            <button type="button" onclick="habilitarCampo('transferencia')">Transferencia</button>
+        </div>
+        
+        <div id="efectivoDiv" style="display: none;">
+            <label for="efectivo">Monto Efectivo $:</label>
+            <input type="number" id="efectivo" name="efectivo">
+        </div>
+        
+        <div id="transferenciaDiv" style="display: none;">
+            <label for="transferencia">Monto Transferencia $:</label>
+            <input type="number" id="transferencia" name="transferencia">
+        </div>
         
         <label for="dirigido_a">Dirigido a:</label>
         <input type="text" id="dirigido_a" name="dirigido_a" required>

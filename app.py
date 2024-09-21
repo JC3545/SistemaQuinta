@@ -177,7 +177,9 @@ def eliminar_reserva(id):
     conn.commit()
     conn.close()
     flash('Reserva eliminada con éxito')
-    return redirect(url_for('ver_reservas'))
+    return redirect(url_for('reservas'))
+
+
 
 @app.route('/ingresar_cliente', methods=['POST'])
 def ingresar_cliente():

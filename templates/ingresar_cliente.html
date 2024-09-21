@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ingresar Cliente</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        function calcularResto() {
+            const total = parseFloat(document.getElementById('total').value) || 0;
+            const seña = parseFloat(document.getElementById('seña').value) || 0;
+            const resto = total - seña;
+            document.getElementById('resto').value = resto >= 0 ? resto : 0; // Asegura que no sea negativo
+        }
+    </script>
 </head>
 <body>
     <h2>Ingresar Datos del Cliente</h2>
@@ -20,10 +28,10 @@
         <input type="text" id="tipo_evento" name="tipo_evento" required>
         
         <label for="total">Total:</label>
-        <input type="number" id="total" name="total" required>
+        <input type="number" id="total" name="total" required oninput="calcularResto()">
         
         <label for="seña">Seña:</label>
-        <input type="number" id="seña" name="seña" required>
+        <input type="number" id="seña" name="seña" required oninput="calcularResto()">
         
         <label for="fecha_seña">Fecha de Seña:</label>
         <input type="date" id="fecha_seña" name="fecha_seña" required>
@@ -35,7 +43,7 @@
         <input type="text" id="dirigido_a" name="dirigido_a" required>
         
         <label for="resto">Resto:</label>
-        <input type="number" id="resto" name="resto" required>
+        <input type="number" id="resto" name="resto" required readonly> <!-- Hacemos que este campo sea solo lectura -->
         
         <label for="observaciones">Observaciones:</label>
         <textarea id="observaciones" name="observaciones"></textarea>

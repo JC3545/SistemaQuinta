@@ -76,6 +76,10 @@ button {
     color: white;
 }
 
+.large-text {
+    font-size: 24px; /* Ajusta según lo que necesites */
+    font-weight: bold; /* Para hacerlo más destacado, si lo deseas */
+}
 
 button:hover {
     background-color: #4cae4c;
@@ -131,6 +135,10 @@ td[colspan="6"] {
     display: block; /* Asegúrate de que el botón ocupe el 100% del ancho disponible */
     margin: 20px auto; /* Margen automático para centrar */
     width: 50%; /* Ajusta el ancho según tus preferencias */
+}
+
+.large-input {
+    font-size: 18px; /* Ajusta el tamaño según lo que necesites */
 }
 
 @media (max-width: 600px) {

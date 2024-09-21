@@ -7,10 +7,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h2>Reservar</h2>
+    <h2>Reservas</h2>
     <form method="POST" action="/check_fecha">
         <label for="fecha">Fecha:</label>
-        <input type="date" id="fecha" name="fecha" required>
+        <input type="date" id="fecha" name="fecha" class="large-input" required>
         <button type="submit" class="centered-button">Comprobar Disponibilidad</button>
     </form>
     

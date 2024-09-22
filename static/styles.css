@@ -30,6 +30,15 @@ h2 {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.user-info {
+    background-color: #e7f3fe; /* Color de fondo para el recuadro */
+    border: 1px solid #b6d4fe; /* Borde del recuadro */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px; /* Espaciado interno */
+    margin-bottom: 20px; /* Margen inferior para separar del resto */
+    text-align: center; /* Centrar texto */
+}
+
 form {
     max-width: 400px;
     margin: 20px auto;
@@ -55,6 +64,17 @@ textarea {
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+
+.user-info {
+    position: absolute; /* Posiciona el elemento */
+    top: 10px; /* Ajusta la distancia desde la parte superior */
+    right: 20px; /* Ajusta la distancia desde la derecha */
+    background-color: #fff; /* Fondo blanco para el recuadro */
+    padding: 10px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Sombra suave */
+}
+
 
 button {
     width: 100%;
@@ -113,7 +133,6 @@ button {
 button:hover {
     opacity: 0.8; /* Efecto de hover */
 }
-
 
 a {
     margin: 0 5px; /* Espacio entre los enlaces */

@@ -14,7 +14,11 @@ def get_db_connection():
 # Inicializar la base de datos
 def init_db():
     conn = get_db_connection()
-    conn.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT UNIQUE, password TEXT)')
+    conn.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT UNIQUE, password TEXT, role TEXT)')
+    
+    # Agregar el usuario administrador por defecto
+    conn.execute('INSERT OR IGNORE INTO users (id, username, password, role) VALUES (?, ?, ?, ?)', (1, 'admin', 'admin_password', 'administrador'))
+    
     conn.execute('CREATE TABLE IF NOT EXISTS reservas (id INTEGER PRIMARY KEY, fecha TEXT, nombre TEXT, telefono TEXT, tipo_evento TEXT, total REAL, seña REAL, fecha_seña TEXT, metodo_pago TEXT, dirigido_a TEXT, resto REAL, observaciones TEXT)')
     conn.commit()
     conn.close()
@@ -43,7 +47,14 @@ def login():
 
     # Lógica de inicio de sesión exitoso
     session['username'] = username
+    session['role'] = user['role']  # Guardar el rol del usuario en la sesión
     return redirect(url_for('reservar'))
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash('Has cerrado sesión exitosamente.')
+    return redirect(url_for('home'))
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -53,7 +64,8 @@ def register():
         
         conn = get_db_connection()
         try:
-            conn.execute('INSERT INTO users (username, password) VALUES (?, ?)', (username, password))
+            # Todos los nuevos usuarios son colaboradores por defecto
+            conn.execute('INSERT INTO users (username, password, role) VALUES (?, ?, ?)', (username, password, 'colaborador'))
             conn.commit()
             flash('Usuario registrado con éxito')
             return redirect(url_for('home'))
@@ -64,11 +76,26 @@ def register():
     
     return render_template('register.html')
 
+
 @app.route('/reservar')
 def reservar():
-    # Aquí podrías obtener las fechas reservadas desde tu base de datos
     fechas_reservadas = ["2024-09-25", "2024-09-28", "2024-09-30"]
-    return render_template('reservar.html', fechas_reservadas=fechas_reservadas)
+    username = session.get('username')  # Obtener el nombre de usuario de la sesión
+    role = session.get('role')  # Obtener el rol de la sesión
+    return render_template('reservar.html', fechas_reservadas=fechas_reservadas, username=username, role=role)
+
+# Agregar otros administradores (descomentar si es necesario)
+# def agregar_administrador(username, password):
+#     conn = get_db_connection()
+#     conn.execute('INSERT INTO users (username, password, role) VALUES (?, ?, ?)', (username, password, 'administrador'))
+#     conn.commit()
+#     conn.close()
+
+def actualizar_roles():
+    conn = get_db_connection()
+    conn.execute("UPDATE users SET role = 'colaborador' WHERE role IS NULL OR role = '';")
+    conn.commit()
+    conn.close()
 
 
 @app.route('/check_fecha', methods=['POST'])
@@ -87,11 +114,9 @@ def check_fecha():
 @app.route('/reservas')
 def reservas():
     conn = get_db_connection()
-    # Ordenar las reservas por fecha de forma ascendente
     reservas = conn.execute('SELECT * FROM reservas ORDER BY fecha ASC').fetchall()
     conn.close()
 
-    # Formatear la fecha en cada reserva
     reservas_format = []
     for reserva in reservas:
         fecha = datetime.strptime(reserva['fecha'], '%Y-%m-%d').strftime('%d/%m/%Y')
@@ -113,7 +138,6 @@ def reservas():
     
     return render_template('ver_reservas.html', reservas=reservas_format)
 
-
 @app.route('/ver/<int:id>')
 def ver_reserva(id):
     conn = get_db_connection()
@@ -121,10 +145,7 @@ def ver_reserva(id):
     conn.close()
     
     if reserva:
-        # Convertir la reserva en un diccionario para modificarla
         reserva_dict = dict(reserva)
-
-        # Formatear las fechas
         reserva_dict['fecha'] = datetime.strptime(reserva['fecha'], '%Y-%m-%d').strftime('%d/%m/%Y')
         if reserva['fecha_seña']:
             reserva_dict['fecha_seña'] = datetime.strptime(reserva['fecha_seña'], '%Y-%m-%d').strftime('%d/%m/%Y')
@@ -134,14 +155,12 @@ def ver_reserva(id):
         flash('Reserva no encontrada.')
         return redirect(url_for('reservar'))
 
-
 @app.route('/editar/<int:id>', methods=['GET', 'POST'])
 def editar_reserva(id):
     conn = get_db_connection()
     reserva = conn.execute('SELECT * FROM reservas WHERE id = ?', (id,)).fetchone()
     
     if request.method == 'POST':
-        # Recoger los datos del formulario
         nombre = request.form['nombre']
         telefono = request.form['telefono']
         tipo_evento = request.form['tipo_evento']
@@ -153,7 +172,6 @@ def editar_reserva(id):
         resto = request.form['resto']
         observaciones = request.form['observaciones']
 
-        # Actualizar la reserva en la base de datos
         conn.execute('''UPDATE reservas 
                         SET nombre = ?, telefono = ?, tipo_evento = ?, total = ?, seña = ?, fecha_seña = ?, 
                             metodo_pago = ?, dirigido_a = ?, resto = ?, observaciones = ?
@@ -165,7 +183,6 @@ def editar_reserva(id):
         flash('Reserva actualizada con éxito.')
         return redirect(url_for('reservas'))
     
-    # Si el método es GET, mostramos el formulario con los datos de la reserva existente
     reserva_dict = dict(reserva)  # Convertimos el objeto a diccionario para que sea modificable
     return render_template('editar_reserva.html', reserva=reserva_dict)
 
@@ -177,8 +194,6 @@ def eliminar_reserva(id):
     conn.close()
     flash('Reserva eliminada con éxito')
     return redirect(url_for('reservas'))
-
-
 
 @app.route('/ingresar_cliente', methods=['POST'])
 def ingresar_cliente():
@@ -205,4 +220,5 @@ def ingresar_cliente():
 
 if __name__ == '__main__':
     init_db()  # Inicializa la base de datos si no existe
+    actualizar_roles()
     app.run(debug=True)

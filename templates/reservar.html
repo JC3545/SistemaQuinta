@@ -9,6 +9,13 @@
 <body>
     <div class="form-container">
         <h2>Reservas</h2>
+
+        {% if username %}
+            <div class="user-info">
+                <p>Bienvenido, {{ username }} ({{ role }})</p>
+            </div>
+        {% endif %}
+
         <form method="POST" action="/check_fecha">
             <label for="fecha">Fecha:</label>
             <input type="date" id="fecha" name="fecha" class="large-input" required>

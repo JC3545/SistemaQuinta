@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 import sqlite3
 from datetime import datetime  # Importar para manejar fechas
 
@@ -66,7 +66,10 @@ def register():
 
 @app.route('/reservar')
 def reservar():
-    return render_template('reservar.html')
+    # Aquí podrías obtener las fechas reservadas desde tu base de datos
+    fechas_reservadas = ["2024-09-25", "2024-09-28", "2024-09-30"]
+    return render_template('reservar.html', fechas_reservadas=fechas_reservadas)
+
 
 @app.route('/check_fecha', methods=['POST'])
 def check_fecha():
@@ -81,16 +84,11 @@ def check_fecha():
     else:
         return render_template('ingresar_cliente.html', fecha=fecha)
 
-@app.route('/logout')
-def logout():
-    session.pop('username', None)  # Elimina la sesión del usuario
-    flash('Has cerrado sesión exitosamente.')
-    return redirect(url_for('home'))  # Redirige a la página de inicio de sesión
-
 @app.route('/reservas')
 def reservas():
     conn = get_db_connection()
-    reservas = conn.execute('SELECT * FROM reservas').fetchall()
+    # Ordenar las reservas por fecha de forma ascendente
+    reservas = conn.execute('SELECT * FROM reservas ORDER BY fecha ASC').fetchall()
     conn.close()
 
     # Formatear la fecha en cada reserva
@@ -114,6 +112,7 @@ def reservas():
         })
     
     return render_template('ver_reservas.html', reservas=reservas_format)
+
 
 @app.route('/ver/<int:id>')
 def ver_reserva(id):

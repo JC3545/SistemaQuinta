@@ -7,28 +7,30 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h2>Reservas</h2>
-    <form method="POST" action="/check_fecha">
-        <label for="fecha">Fecha:</label>
-        <input type="date" id="fecha" name="fecha" class="large-input" required>
-        <button type="submit" class="centered-button">Comprobar Disponibilidad</button>
-    </form>
-    
-    <div class="centered">
-        <p><a href="/reservas">Ver Reservas</a></p>
-        <p><a href="/logout">Logout</a></p>
-    </div>
-    
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
+    <div class="form-container">
+        <h2>Reservas</h2>
+        <form method="POST" action="/check_fecha">
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha" name="fecha" class="large-input" required>
+            <button type="submit" class="centered-button">Comprobar Disponibilidad</button>
+        </form>
+
         <div class="centered">
-          <ul>
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-          </ul>
+            <p><a href="/reservas">Ver Reservas</a></p>
+            <p><a href="/logout">Logout</a></p>
         </div>
-      {% endif %}
-    {% endwith %}
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="centered">
+              <ul>
+              {% for message in messages %}
+                <li>{{ message }}</li>
+              {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+        {% endwith %}
+    </div>
 </body>
 </html>

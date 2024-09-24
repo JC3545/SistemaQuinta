@@ -5,6 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reservar</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .user-info {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .user-info p {
+            margin: 0;
+        }
+        .logout-button, .admin-button {
+            display: inline-block;
+            margin-top: 10px;
+            background-color: #f44336;
+            color: white;
+            padding: 3px 8px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .admin-button {
+            background-color: #4CAF50; /* Color diferente para "Administrar Usuarios" */
+            margin-left: 10px; /* Espacio entre los botones */
+        }
+        .admin-button:hover, .logout-button:hover {
+            opacity: 0.8; /* Efecto hover para ambos botones */
+        }
+        .button-group {
+            margin-top: 10px; /* Espacio entre el texto y los botones */
+            display: flex; /* Usar flexbox */
+            align-items: center; /* Alinear verticalmente al centro */
+            justify-content: center; /* Centrar los botones horizontalmente */
+        }
+        .ver-reservas-button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 15px;
+        cursor: pointer;
+        text-decoration: none;
+        margin-left: 20px; /* Ajusta este valor para mover el botón hacia la derecha */
+        margin-right: 27px;
+    }
+        .ver-reservas-button:hover {
+            background-color: #0056b3; /* Efecto hover para Ver Reservas */
+        }
+    </style>
 </head>
 <body>
     <div class="form-container">
@@ -13,31 +64,33 @@
         {% if username %}
             <div class="user-info">
                 <p>Bienvenido, {{ username }} ({{ role }})</p>
+                <div class="button-group">
+                    <a href="/admin_usuarios" class="admin-button">Administrar Usuarios</a>
+                    <a href="/logout" class="logout-button">Logout</a>
+                </div>
             </div>
         {% endif %}
 
-        <form method="POST" action="/check_fecha">
+        <form method="POST" action="/check_fecha" class="button-group">
             <label for="fecha">Fecha:</label>
             <input type="date" id="fecha" name="fecha" class="large-input" required>
             <button type="submit" class="centered-button">Comprobar Disponibilidad</button>
+            <a href="/reservas" class="ver-reservas-button">Ver Reservas</a>
         </form>
 
         <div class="centered">
-            <p><a href="/reservas">Ver Reservas</a></p>
-            <p><a href="/logout">Logout</a></p>
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <div class="centered">
+                  <ul>
+                  {% for message in messages %}
+                    <li>{{ message }}</li>
+                  {% endfor %}
+                  </ul>
+                </div>
+              {% endif %}
+            {% endwith %}
         </div>
-
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            <div class="centered">
-              <ul>
-              {% for message in messages %}
-                <li>{{ message }}</li>
-              {% endfor %}
-              </ul>
-            </div>
-          {% endif %}
-        {% endwith %}
     </div>
 </body>
 </html>

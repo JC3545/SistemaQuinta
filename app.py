@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 import sqlite3
-from datetime import datetime  # Importar para manejar fechas
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'tu_clave_secreta'  # Cambia esto por una clave más segura
@@ -16,7 +16,7 @@ def init_db():
     conn = get_db_connection()
     conn.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT UNIQUE, password TEXT, role TEXT)')
     
-    # Agregar el usuario administrador por defecto
+    # Agregar el usuario administrador por defecto (ID 1 será siempre el administrador)
     conn.execute('INSERT OR IGNORE INTO users (id, username, password, role) VALUES (?, ?, ?, ?)', (1, 'admin', 'admin_password', 'administrador'))
     
     conn.execute('CREATE TABLE IF NOT EXISTS reservas (id INTEGER PRIMARY KEY, fecha TEXT, nombre TEXT, telefono TEXT, tipo_evento TEXT, total REAL, seña REAL, fecha_seña TEXT, metodo_pago TEXT, dirigido_a TEXT, resto REAL, observaciones TEXT)')
@@ -47,8 +47,23 @@ def login():
 
     # Lógica de inicio de sesión exitoso
     session['username'] = username
-    session['role'] = user['role']  # Guardar el rol del usuario en la sesión
-    return redirect(url_for('reservar'))
+    session['role'] = user['role'].lower()  # Guardar el rol del usuario en la sesión
+    
+    # Verificar si el usuario es administrador y redirigir al panel correspondiente
+    if user['role'].lower() == 'administrador':
+        flash('Has iniciado sesión como administrador.')
+        return redirect(url_for('admin_usuarios'))  # Redirige al panel de administración
+    else:
+        return redirect(url_for('reservar'))
+
+@app.route('/admin_usuarios')
+def admin_usuarios():
+    if session.get('role') != 'administrador':
+        flash('Acceso restringido. Solo administradores pueden acceder a esta sección.')
+        return redirect(url_for('reservar'))
+
+    # Aquí iría la lógica para mostrar la administración de usuarios
+    return render_template('admin_usuarios.html')  # Asegúrate de tener esta plantilla
 
 @app.route('/logout')
 def logout():
@@ -76,27 +91,19 @@ def register():
     
     return render_template('register.html')
 
-
 @app.route('/reservar')
 def reservar():
     fechas_reservadas = ["2024-09-25", "2024-09-28", "2024-09-30"]
     username = session.get('username')  # Obtener el nombre de usuario de la sesión
     role = session.get('role')  # Obtener el rol de la sesión
-    return render_template('reservar.html', fechas_reservadas=fechas_reservadas, username=username, role=role)
 
-# Agregar otros administradores (descomentar si es necesario)
-# def agregar_administrador(username, password):
-#     conn = get_db_connection()
-#     conn.execute('INSERT INTO users (username, password, role) VALUES (?, ?, ?)', (username, password, 'administrador'))
-#     conn.commit()
-#     conn.close()
+    return render_template('reservar.html', fechas_reservadas=fechas_reservadas, username=username, role=role)
 
 def actualizar_roles():
     conn = get_db_connection()
     conn.execute("UPDATE users SET role = 'colaborador' WHERE role IS NULL OR role = '';")
     conn.commit()
     conn.close()
-
 
 @app.route('/check_fecha', methods=['POST'])
 def check_fecha():
@@ -214,11 +221,10 @@ def ingresar_cliente():
                  (fecha, nombre, telefono, tipo_evento, total, seña, fecha_seña, metodo_pago, dirigido_a, resto, observaciones))
     conn.commit()
     conn.close()
-    
-    flash('Reserva creada con éxito')
-    return redirect(url_for('reservar'))
+
+    flash('Cliente ingresado correctamente.')
+    return redirect(url_for('reservas'))
 
 if __name__ == '__main__':
-    init_db()  # Inicializa la base de datos si no existe
-    actualizar_roles()
+    init_db()  # Asegúrate de inicializar la base de datos al iniciar la aplicación
     app.run(debug=True)

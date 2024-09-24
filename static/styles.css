@@ -31,12 +31,12 @@ h2 {
 }
 
 .user-info {
-    background-color: #e7f3fe; /* Color de fondo para el recuadro */
-    border: 1px solid #b6d4fe; /* Borde del recuadro */
-    border-radius: 5px; /* Bordes redondeados */
-    padding: 10px; /* Espaciado interno */
-    margin-bottom: 20px; /* Margen inferior para separar del resto */
-    text-align: center; /* Centrar texto */
+    background-color: #e7f3fe;
+    border: 1px solid #b6d4fe;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 form {
@@ -66,39 +66,91 @@ textarea {
 }
 
 .user-info {
-    position: absolute; /* Posiciona el elemento */
-    top: 10px; /* Ajusta la distancia desde la parte superior */
-    right: 20px; /* Ajusta la distancia desde la derecha */
-    background-color: #fff; /* Fondo blanco para el recuadro */
-    padding: 10px; /* Espaciado interno */
-    border-radius: 5px; /* Bordes redondeados */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
+.logout-button {
+    background-color: #f44336;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.admin-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.admin-button:hover {
+    background-color: #45a049;
+}
+
+.logout-button:hover {
+    background-color: #d32f2f;
+}
 
 button {
-    width: 100%;
+    width: auto;
+    max-width: 150px;
     padding: 10px;
     background-color: #5cb85c;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    margin: 5px; /* Espaciado entre botones */
+}
+
+.ver-reservas-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-left: 5px; /* Ajusta este valor para mover el botón hacia la derecha */
+}
+
+
+.ver-reservas-button:hover {
+    background-color: #0056b3;
 }
 
 .delete-button {
-    background-color: red; /* Rojo para eliminar */
+    background-color: red;
     color: white;
 }
 
 .edit-button {
-    background-color: blue; /* Azul para editar */
+    background-color: blue;
     color: white;
 }
 
 .large-text {
-    font-size: 24px; /* Ajusta según lo que necesites */
-    font-weight: bold; /* Para hacerlo más destacado, si lo deseas */
+    font-size: 24px;
+    font-weight: bold;
 }
 
 button:hover {
@@ -113,7 +165,7 @@ table {
 th, td {
     border: 1px solid #ccc;
     padding: 10px;
-    text-align: center; /* Centrar texto en la tabla */
+    text-align: center;
 }
 
 th {
@@ -121,43 +173,14 @@ th {
     color: white;
 }
 
-button {
-    width: auto; /* Cambiar a auto para que se ajuste al contenido */
-    padding: 10px 15px; /* Añadir padding para mayor área clickeable */
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 5px; /* Espaciado entre botones */
-}
-
-button:hover {
-    opacity: 0.8; /* Efecto de hover */
-}
-
-a {
-    margin: 0 5px; /* Espacio entre los enlaces */
-    color: #007bff;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-td[colspan="6"] {
-    text-align: center;
-    font-weight: bold;
-    color: #666;
-}
-
 .centered-button {
-    display: block; /* Asegúrate de que el botón ocupe el 100% del ancho disponible */
-    margin: 20px auto; /* Margen automático para centrar */
-    width: 50%; /* Ajusta el ancho según tus preferencias */
+    display: block;
+    margin: 20px auto;
+    width: 50%;
 }
 
 .large-input {
-    font-size: 18px; /* Ajusta el tamaño según lo que necesites */
+    font-size: 18px;
 }
 
 @media (max-width: 600px) {

@@ -48,13 +48,9 @@ def login():
     # Lógica de inicio de sesión exitoso
     session['username'] = username
     session['role'] = user['role'].lower()  # Guardar el rol del usuario en la sesión
-    
-    # Verificar si el usuario es administrador y redirigir al panel correspondiente
-    if user['role'].lower() == 'administrador':
-        flash('Has iniciado sesión como administrador.')
-        return redirect(url_for('admin_usuarios'))  # Redirige al panel de administración
-    else:
-        return redirect(url_for('reservar'))
+
+    # Redirigir a la página de reservas directamente después del login
+    return redirect(url_for('reservar'))
 
 @app.route('/admin_usuarios')
 def admin_usuarios():
@@ -221,10 +217,10 @@ def ingresar_cliente():
                  (fecha, nombre, telefono, tipo_evento, total, seña, fecha_seña, metodo_pago, dirigido_a, resto, observaciones))
     conn.commit()
     conn.close()
-
-    flash('Cliente ingresado correctamente.')
-    return redirect(url_for('reservas'))
+    
+    flash('Reserva ingresada con éxito.')
+    return redirect(url_for('reservar'))
 
 if __name__ == '__main__':
-    init_db()  # Asegúrate de inicializar la base de datos al iniciar la aplicación
+    init_db()  # Inicializa la base de datos
     app.run(debug=True)

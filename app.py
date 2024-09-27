@@ -58,8 +58,12 @@ def admin_usuarios():
         flash('Acceso restringido. Solo administradores pueden acceder a esta sección.')
         return redirect(url_for('reservar'))
 
-    # Aquí iría la lógica para mostrar la administración de usuarios
-    return render_template('admin_usuarios.html')  # Asegúrate de tener esta plantilla
+    # Obtener todos los usuarios de la base de datos
+    conn = get_db_connection()
+    usuarios = conn.execute('SELECT username, password, role FROM users').fetchall()
+    conn.close()
+
+    return render_template('admin_usuarios.html', usuarios=usuarios)
 
 @app.route('/logout')
 def logout():
@@ -218,9 +222,9 @@ def ingresar_cliente():
     conn.commit()
     conn.close()
     
-    flash('Reserva ingresada con éxito.')
+    flash('Cliente ingresado correctamente')
     return redirect(url_for('reservar'))
 
 if __name__ == '__main__':
-    init_db()  # Inicializa la base de datos
+    init_db()
     app.run(debug=True)

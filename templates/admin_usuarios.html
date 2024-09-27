@@ -20,12 +20,55 @@
             text-decoration: none;
             color: #007bff;
         }
+        table {
+            width: 60%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        table th, table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        table th {
+            background-color: #007bff;
+            color: #fff;
+        }
+        table td {
+            color: #333;
+        }
+        .user-row {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <h1>Panel de Administración de Usuarios</h1>
     <p>Esta es la sección de administración donde solo los administradores pueden acceder.</p>
-    
+
+    <!-- Tabla de usuarios -->
+    <table>
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Pass</th>
+                <th>Rol</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Aquí se generarían dinámicamente los usuarios -->
+            {% for usuario in usuarios %}
+            <tr class="user-row">
+                <td>{{ usuario.username }}</td>
+                <td>{{ usuario.password }}</td>
+                <td>{{ usuario.role }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
     <a href="{{ url_for('reservar') }}">Volver al sistema de reservas</a>
 </body>
 </html>
